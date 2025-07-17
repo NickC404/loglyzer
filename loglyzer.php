@@ -6,8 +6,7 @@
  * Description: Monolog logging and visualisation for WordPress.
  * Author: Nick Cotterill
  * Author URI: https://nickcotterill.co.uk
- * Text Domain:
- * License:
+ * License: MIT License
  * Version: 1.0.0
  */
 
