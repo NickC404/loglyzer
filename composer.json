@@ -1,5 +1,12 @@
 {
     "require": {
-        "monolog/monolog": "^3.9"
+        "monolog/monolog": "^3.9",
+        "picocss/pico": "^2.1"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "mkdir -p assets/css",
+            "cp vendor/picocss/pico/css/pico.min.css assets/css/"
+        ]
     }
 }

@@ -2,11 +2,12 @@
 
 namespace Loglyzer\Logging;
 
+use Loglyzer\Helpers\Log;
 use Monolog\Formatter\JsonFormatter;
-use Monolog\Logger;
 use Monolog\Logger as MonologLogger;
 use Monolog\Handler\StreamHandler;
-use Monolog\Formatter\LineFormatter;
+
+require_once __DIR__ . '/Log.php';
 
 defined('ABSPATH') || exit;
 
@@ -22,6 +23,9 @@ class LoggerFactory {
         LoggerRegistry::setLogger($logger);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function read_and_format_logs(): array
     {
         $lines = file(WP_CONTENT_DIR . '/logs/loglyzer.log', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -35,10 +39,7 @@ class LoggerFactory {
             if (empty($decodedLine)) {
                 continue;
             }
-            $logEntries[$decodedLine['level']] = [
-                'dateTime' => $decodedLine['datetime'],
-                'context' => $decodedLine['context']
-            ];
+            $logEntries[] = Log::from_array($decodedLine);
         }
 
         return $logEntries;
