@@ -31,6 +31,13 @@ Class Menu {
             [],
             '1.0'
         );
+        wp_enqueue_script(
+            'loglyzer-chartjs',
+            plugins_url('../../assets/js/chart.umd.min.js', __FILE__),
+            [],
+            '4.5.0',
+            true
+        );
     }
 
     public function render_page(): void {
