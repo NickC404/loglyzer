@@ -3,7 +3,7 @@
 namespace Loglyzer;
 
 require_once __DIR__ . '/Hooks/Loader.php';
-require_once __DIR__ . '/Logging/LoggerFactory.php';
+require_once __DIR__ . '/Logging/LogFactory.php';
 require_once __DIR__ . '/Logging/LoggerRegistry.php';
 require_once __DIR__ . '/Admin/Menu.php';
 require_once __DIR__ . '/Helpers/LogContext.php';
@@ -11,7 +11,7 @@ require_once __DIR__ . '/Helpers/LogContext.php';
 use Loglyzer\Admin\Menu;
 use Loglyzer\Helpers\LogContext;
 use Loglyzer\Hooks\Loader;
-use Loglyzer\Logging\LoggerFactory;
+use Loglyzer\Logging\LogFactory;
 use Loglyzer\Logging\LoggerRegistry;
 
 defined('ABSPATH') || exit;
@@ -32,7 +32,7 @@ class Loglyzer {
 
     protected function init_logging(): void
     {
-        LoggerFactory::init();
+        LogFactory::init();
     }
 
     protected function register_hooks(): void

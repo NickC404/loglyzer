@@ -2,7 +2,7 @@
 
 namespace Loglyzer\Admin;
 
-use Loglyzer\Logging\LoggerFactory;
+use Loglyzer\Logging\LogFactory;
 
 defined('ABSPATH') || exit;
 
@@ -41,7 +41,7 @@ Class Menu {
     }
 
     public function render_page(): void {
-        $LoggerFactory = new LoggerFactory();
+        $LoggerFactory = new LogFactory();
         $logs = $LoggerFactory->read_and_format_logs();
 
         include plugin_dir_path(dirname(dirname(__FILE__))) . 'templates/admin-dashboard.php';

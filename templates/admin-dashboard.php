@@ -3,6 +3,20 @@
         <h1 style="color: #0c54e5;">Loglyzer Logs!</h1>
     </div>
     <br />
+    <div class="grid">
+        <div>
+            <form>
+                <select name="recordsFor" aria-label="Show logs for..." required>
+                    <option selected disabled value="">
+                        Select your log range
+                    </option>
+                    <option>last 30 days</option>
+                    <option>last 6 months</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <br />
     <div class="grid" style="padding-right: 100px;">
         <canvas id="loglyzer-pie" style="width: 350px; height: 350px;" width="350" height="350"></canvas>
         <canvas id="loglyzer-line" style="width: 100%; max-width: 600px; height: 300px;"></canvas>

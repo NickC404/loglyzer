@@ -44,4 +44,13 @@ class Log {
 
         return $log;
     }
+
+    public function to_array(): array {
+        return [
+            'error_code' => $this->get_error_code(),
+            'error_message' => $this->get_error_message(),
+            'context' => $this->get_context(),
+            'datetime' => $this->get_datetime()
+        ];
+    }
 }

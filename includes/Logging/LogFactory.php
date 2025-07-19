@@ -2,16 +2,22 @@
 
 namespace Loglyzer\Logging;
 
+use Cassandra\Date;
+use DateTime;
 use Loglyzer\Helpers\Log;
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Logger as MonologLogger;
 use Monolog\Handler\StreamHandler;
+use SplFileObject;
 
 require_once __DIR__ . '/Log.php';
 
 defined('ABSPATH') || exit;
 
-class LoggerFactory {
+class LogFactory {
+
+    public const RECORDS_PER_PAGE = 2;
+
     public static function init(): void
     {
         $logger = new MonologLogger('loglyzer');
@@ -26,10 +32,19 @@ class LoggerFactory {
     /**
      * @throws \Exception
      */
-    public function read_and_format_logs(): array
+    public function read_and_format_logs(int $page_number = 1): array
     {
-        $lines = file(WP_CONTENT_DIR . '/logs/loglyzer.log', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $file = new SplFileObject(WP_CONTENT_DIR . '/logs/loglyzer.log');
+        $start = ($page_number - 1) * self::RECORDS_PER_PAGE;
+        $end = $start + self::RECORDS_PER_PAGE - 1;
+        $file->seek($start);
+        $lines = [];
         $logEntries = [];
+
+        while (!$file->eof() && $file->key() <= $end) {
+            $lines[] = $file->current();
+            $file->next();
+        }
 
         if (empty($lines)) {
             return [];
