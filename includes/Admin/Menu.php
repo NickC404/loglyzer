@@ -42,7 +42,9 @@ Class Menu {
 
     public function render_page(): void {
         $LoggerFactory = new LogFactory();
-        $logs = $LoggerFactory->read_and_format_logs();
+        $logs_and_pagination = $LoggerFactory->read_and_format_logs();
+        $logs = $logs_and_pagination['logs'];
+        $pagination_info = $logs_and_pagination['pagination_info'];
 
         include plugin_dir_path(dirname(dirname(__FILE__))) . 'templates/admin-dashboard.php';
     }

@@ -1,6 +1,9 @@
+<?php
+    /** @var array $pagination_info */
+?>
 <div data-theme="light">
     <div class="wrap">
-        <h1 style="color: #0c54e5;">Loglyzer Logs!</h1>
+        <h1 style="color: black;">Loglyzer Logs!</h1>
     </div>
     <br />
     <div class="grid">
@@ -42,6 +45,13 @@
                     </tr><?php
                 } ?>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" style="text-align:center !important;">
+                            <?= $pagination_info['start'] + 1 ?> to <?= $pagination_info['end'] + 1 ?> of <?= $pagination_info['max_records'] ?>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     <?php } else { ?>

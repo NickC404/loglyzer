@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
 
 class LogFactory {
 
-    public const RECORDS_PER_PAGE = 2;
+    public const RECORDS_PER_PAGE = 20;
 
     public static function init(): void
     {
@@ -35,28 +35,41 @@ class LogFactory {
     public function read_and_format_logs(int $page_number = 1): array
     {
         $file = new SplFileObject(WP_CONTENT_DIR . '/logs/loglyzer.log');
+
+        // Paginator Information
+        $file->seek(PHP_INT_MAX);
+        $max_records = $file->key();
         $start = ($page_number - 1) * self::RECORDS_PER_PAGE;
-        $end = $start + self::RECORDS_PER_PAGE - 1;
+        $end = min($start + self::RECORDS_PER_PAGE - 1, $max_records - 1);
+        $pagination_info = [
+            'max_records' => $max_records,
+            'start' => $start,
+            'end' => $end,
+            'max_page_number' => (int) ceil($max_records / self::RECORDS_PER_PAGE),
+        ];
+
         $file->seek($start);
         $lines = [];
-        $logEntries = [];
+        $logs = [];
 
         while (!$file->eof() && $file->key() <= $end) {
             $lines[] = $file->current();
             $file->next();
         }
-
         if (empty($lines)) {
-            return [];
+            return [
+                'logs' => $logs,
+                'pagination_info' => $pagination_info
+            ];
         }
         foreach ($lines as $line) {
             $decodedLine = json_decode($line, true);
             if (empty($decodedLine)) {
                 continue;
             }
-            $logEntries[] = Log::from_array($decodedLine);
+            $logs[] = Log::from_array($decodedLine);
         }
 
-        return $logEntries;
+        return compact('logs','pagination_info');
     }
 }
